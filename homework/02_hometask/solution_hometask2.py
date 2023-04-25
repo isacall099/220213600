@@ -17,7 +17,8 @@ First group of tasks
 """
 #setting working directory
 import os
-os.chdir("/Users/isa/Downloads/pythondataMLU220213600/220213600/homework")
+#Check pathway
+os.chdir("/Users/isa/Downloads/pythondataMLU220213600/220213600/homework/02_hometask")
 # Task 1.1 Load the stock price data
 prices = pd.read_csv('02_python_data.csv')
 print(prices)
@@ -44,25 +45,25 @@ Second group of tasks
 """
 # Task 2.1
 returns['.GDAXI_arithmetic_returns'].hist()
-plt.title('Histogram of Company A Stock Prices')
+plt.title('Histogram of DAX Stock Prices')
 plt.xlabel('Price')
 plt.ylabel('Frequency')
 plt.show()
 # Task 2.2
 fig, ax1 = plt.subplots()
-# Plot a histogram of 'Column A' in df1 on the first y-axis
+# Plot a histogram of 'DAX prices' in df1 on the first y-axis
 ax1.hist(prices['.GDAXI'], alpha=0.5, label='prices')
 ax1.set_xlabel('Value')
 ax1.set_ylabel('Frequency', color='blue')
 ax1.tick_params(axis='y', labelcolor='blue')
 # Create a second y-axis on the right side of the plot
 ax2 = ax1.twinx()
-# Plot a histogram of 'Column B' in df2 on the second y-axis
+# Plot a histogram of 'DAX returns' in df2 on the second y-axis
 ax2.hist(returns['.GDAXI_arithmetic_returns'], alpha=0.5, color='red', label='returns')
 ax2.set_ylabel('Frequency', color='red')
 ax2.tick_params(axis='y', labelcolor='red')
 # Add a title to the plot
-plt.title('Histogram of Column A and Column B')
+plt.title('Histogram of DAX prices and returns')
 # Add a legend to the plot
 handles, labels = [], []
 for ax in [ax1, ax2]:
@@ -146,7 +147,7 @@ prices_monthly = prices.resample('M').last()
 
 # Plot monthly prices for 'BMWG.DE'
 prices_monthly['BMWG.DE'].plot()
-
+plt.title("Montly stock prices for BMW")
 plt.show()
 #Note if last part doesnt run properly and produce only one value it might be that somehow Date column became corrupted, so at the end check columns and see if Date is still there 
 # print(prices.columns)
