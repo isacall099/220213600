@@ -1,6 +1,5 @@
-"""
-Part 1 - Install and Importing relevant packages
-"""
+#Second Hometask Financial Data Analytics with Python 
+#while running impor functions, I had errors at the beginning thats why I hadd to run from line 3 to 9
 #import pkg_resources
 #pkg_resources.working_set.by_key.keys()
 #pip install --upgrade pip
@@ -12,6 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 """
 First group of tasks 
 """
