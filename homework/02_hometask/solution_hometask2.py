@@ -151,6 +151,7 @@ plt.title("Montly stock prices for BMW")
 plt.show()
 #Note if last part doesnt run properly and produce only one value it might be that somehow Date column became corrupted, so at the end check columns and see if Date is still there 
 # print(prices.columns)
+#test
 """
 Part __ - Converting file
 """
