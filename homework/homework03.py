@@ -112,5 +112,5 @@ print("Call option price using Monte Carlo simulation: ", call_price_MC)
 
 #Comment- While calculating price for call option, we use Monte Carlo simulation
 # over numerical integration when if asset follows complex stochastic process such as 
-# such Geometric-Brownian function. When asset follows simple stochastic process like
+# Geometric-Brownian function. When asset follows simple stochastic process like
 # constant volatility we may prefer numerical integration
