@@ -89,42 +89,47 @@ print("Equally Weighted Portfolio:", VaR_1day_95_portfolio_simulated)
 """
 Third group of tasks
 """
-# Calculate the mean and standard deviation of log-returns
-mu = gdaxi_returns.mean()
-sigma = gdaxi_returns.std()
+#
+confidence_level = 0.95
 
-# Set the significance level and time horizon
-alpha = 0.95
-t = 1
+# Generate random daily returns for a two stock portfolio
+np.random.seed(42)
+num_days = 252*10
+returns_A = np.random.normal(loc=0.001, scale=0.02, size=num_days)
+returns_B = np.random.normal(loc=0.0005, scale=0.015, size=num_days)
+# Create a DataFrame with the returns
+returns = pd.DataFrame({'A': returns_A, 'B': returns_B})
+# Calculate portfolio weights (50% each)
+weights = np.array([0.5, 0.5])
+# Calculate portfolio returns
+portfolio_returns = returns.dot(weights)
 
-# Calculate the 1-day VaR using the parametric method
-var_parametric = norm.ppf(1 - alpha) * sigma * np.sqrt(t)
+# Calculate the 1-day VaR at a 95% confidence level (historical simulation)
+confidence_level = 0.95
+VaR_1day_95 = np.percentile(portfolio_returns, 100 * (1 - confidence_level))
 
-# Calculate the 1-day VaR using the historical method
-var_historical = -np.percentile(gdaxi_returns, alpha * 100)
+# Calculate the 1-day VaR at a 95% confidence level (parametric)
+mean_returns = returns.mean()
+cov_matrix = returns.cov()
+portfolio_mean = np.dot(weights, mean_returns)
+portfolio_std = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights)))
+alpha = stats.norm.ppf(confidence_level)
+VaR_1day_95_parametric = -portfolio_mean - alpha * portfolio_std
 
-# Calculate the 1-day VaR using Monte Carlo simulation
-num_simulations = 10000
-simulated_returns = np.random.normal(mu, sigma, size=(t, num_simulations))
-var_monte_carlo = -np.percentile(np.sum(simulated_returns, axis=0), alpha * 100)
+# Calculate the 1-day VaR at a 95% confidence level (Monte Carlo)
+Nsim = 10000
+# Simulate daily returns
+simulated_returns = np.random.normal(portfolio_mean, portfolio_std, Nsim)
+# Note how this is similar to historical simulation
+VaR_1day_95_simulated = np.percentile(simulated_returns, 100 * (1 - confidence_level))
 
-# Plot a histogram of the returns
-plt.hist(gdaxi_returns, bins=30, density=True, alpha=0.6)
-
-# Add a line plot of the normal distribution
-x = np.linspace(gdaxi_returns.min(), gdaxi_returns.max(), 100)
-plt.plot(x, norm.pdf(x, mu, sigma), 'r-', lw=2, label='Normal Distribution')
-
-# Add indicators for the 3 VaRs
-plt.axvline(-var_parametric, color='b', linestyle='--', label='Parametric VaR')
-plt.axvline(-var_historical, color='g', linestyle='--', label='Historical VaR')
-plt.axvline(-var_monte_carlo, color='purple', linestyle='--', label='Monte Carlo VaR')
-
-# Set the title and axis labels
-plt.title('Distribution of .GDAXI Returns')
+# Plot the portfolio returns and the VaR
+plt.hist(portfolio_returns, bins=50, density=True, color='grey', alpha=0.75, label='Portfolio Returns')
+plt.axvline(x=VaR_1day_95, color='red', linestyle='--', label=f'Historical: {VaR_1day_95:.4f}')
+plt.axvline(x=VaR_1day_95_parametric, color='green', linestyle='--', label=f'Parametric: {VaR_1day_95_parametric:.4f}')
+plt.axvline(x=VaR_1day_95_simulated, color='blue', linestyle='--', label=f'Simulated: {VaR_1day_95_simulated:.4f}')
 plt.xlabel('Returns')
-plt.ylabel('Density')
-
-# Add a legend and show the plot
+plt.ylabel('Frequency')
+plt.title('Portfolio Returns and 1-day VaR at 95% Confidence Level')
 plt.legend()
 plt.show()
