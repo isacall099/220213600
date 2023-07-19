@@ -212,7 +212,7 @@ Function for Live Trading
 """
 # Code to be iterated for a chosen time
 start_time = time.time()
-end_time = start_time + 60  # 60 seconds = 1 minute, for it to be recorded I run it for 1 minute, so you can see that code is working, when I first applied the code I didnt put end loop, so my last live trading was 28800 which I will later work on 
+end_time = start_time + 28800  # 60 seconds = 1 minute, for it to be recorded I run it for 1 minute, so you can see that code is working, when I first applied the code I didnt put end loop, so my last live trading was 28800 which I put here 
 signals_df = pd.DataFrame(columns=['Timestamp', 'Readable Time', 'Signal', 'Price', 'Amount'])
 
 while True:
